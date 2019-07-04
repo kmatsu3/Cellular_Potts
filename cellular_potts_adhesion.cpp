@@ -36,8 +36,9 @@ void adhesion_binding_table::set_table(
 	  bind_coupling.push_back(0.0);
 	}
     };
-  bind_coupling.push_back(0.0);
+  bind_partner_pointer.clear();
   bind_partner_pointer.push_back(0);
+  bind_partner_index.clear();
   for(
       long int cell_index=0;
       cell_index<number_of_cells;
@@ -55,15 +56,24 @@ void adhesion_binding_table::set_table(
 					structure_item,
 					work_vector_longint
 					);
-      bind_partner_pointer.push_back((long int)work_vector_longint.size());
+      bind_partner_pointer.push_back(
+				     bind_partner_pointer[cell_index]
+				     +(long int)work_vector_longint.size()
+				     );
       for(
-	  long int partner_index=work_vector_longint[cell_index];
-	  partner_index<work_vector_longint[cell_index+1];
+	  long int partner_index=0;
+	  partner_index<work_vector_longint.size();
 	  partner_index++
 	  )
 	{
-	  bind_partner_index.push_back(work_vector_longint[partner_index]);
-	  bind_coupling[cell_index*number_of_cells+partner_index]
+	  bind_partner_index.push_back(
+				       work_vector_longint[
+							   partner_index
+							   ]
+				       );
+	  bind_coupling[
+			cell_index*number_of_cells
+			+work_vector_longint[partner_index]]
 	    =coupling_constant;
 	} 
     };
@@ -490,7 +500,7 @@ void adhesion_system_class::initialize_adhesion()
 						 adhesion_index,
 						 "interaction_type"
 						 );
-      work_double=io_method.get_input_double(
+      work_string=io_method.get_input_string(
 					     "adhesion_input",
 					     structure_item
 					     );
