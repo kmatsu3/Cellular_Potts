@@ -1,5 +1,5 @@
 # Cellular_Potts
-This program simulates the cellular dynamics on the basis of Cellular Potts model.
+This program simulates cellular dynamics on the basis of the Cellular Potts model with adhesion polarities.
 
 This program was used in the following papers:
 
