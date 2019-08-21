@@ -423,7 +423,7 @@ void state_system_class::get_adhesion_field(
   double work_norm;
   //debug
   ///*
-  std::string message;
+  std::string debug_message;
   //io_method.standard_output("enter:");
   //*/
   //debug
@@ -508,8 +508,49 @@ void state_system_class::get_adhesion_field(
 							      +io_method.int_to_string(map_index);
 			  */
 			  // debug
-			  adhesion_strength
-			    =adhesion_system.coupling_constants[map_index];
+			  // should be debugging
+			  // debug
+			  //	  debug_message= adhesion_system.get_adhesion_type(map_index)
+			  //	    + ":";
+			  // debug
+			  if(
+			     adhesion_system.get_adhesion_type(map_index)
+			     ==
+			     adhesion_system.get_adhesion_type_identifier("normal")
+			     )
+			    {
+			      adhesion_strength
+				=adhesion_system.coupling_constants[map_index];
+			      // debug
+			      //debug_message += "debug list A: strength =" 
+			      //	+ io_method.double_to_string(adhesion_strength)
+			      //	+ "map no." + io_method.longint_to_string(map_index)
+			      //	+ "cell no." + io_method.longint_to_string(configuration[site_index])
+			      //	+ "neig no." + io_method.longint_to_string(configuration[neighbor_site]);
+			      //  io_method.standard_output(debug_message);
+			      // debug
+			    }
+			  else if (
+				   adhesion_system.get_adhesion_type(map_index)
+				   ==
+				   adhesion_system.get_adhesion_type_identifier("tight")
+				   )
+			    {
+			      adhesion_strength
+				=adhesion_system.get_adhesion_tight_junction_constant(
+										      map_index,
+										      configuration[site_index],
+										      configuration[neighbor_site]
+										      ) ;
+			      // debug
+			      //     debug_message += "debug list B: strength =" 
+			      //	+ io_method.double_to_string(adhesion_strength)
+			      //	+ "map no." + io_method.longint_to_string(map_index)
+			      //	+ "cell no." + io_method.longint_to_string(configuration[site_index])
+			      //	+ "neig no." + io_method.longint_to_string(configuration[neighbor_site]);
+			      //    io_method.standard_output(debug_message);
+			      // debug
+				};
 			  // debug
 			  //	  if(configuration[site_index]==135) 
 			  //{

@@ -41,8 +41,10 @@ private:  std::string io_mode_input  ; // IO control input file
 private:  std::string model_input    ; // Model parameter input file
 private:  std::string standard_output; // Standard output file
 private:  std::string cell_type_input; // Cell type definition input file
+private:  std::string displacement_output; //
 private:  std::string adhesion_input; // Adehsion definition input file
 private:  std::string bind_table; // Bind table for adheison input file
+private:  std::string fixed_table; // Fixed cell table for input file
 private:  std::string site_io        ; // Site data file
 private:  std::string region_input; // Regions, which are separatly used for control onsite parameter, input file
 private:  std::string site_setting_input; // Site data file
@@ -526,6 +528,12 @@ void io_cellular_potts::get_input_longint_array(
     io_instance.data_set(data_identifier,"data");
     io_instance.get_input_array(input_data);
     //
+    /*debug_output(
+		 "debug",
+		 file_identifier,
+		 data_identifier,
+		 boost::lexical_cast<std::string>((long int)input_data.size())
+		 );*/
     std::vector<std::string>::iterator index=input_data.begin();
     counter=0;
     message = data_identifier;
@@ -733,24 +741,26 @@ io_cellular_potts_class::io_cellular_potts_class()
   debug_output="debug.txt";
   io_mode_input="model_input.txt";
   model_input="model_input.txt";
-  standard_output="standard_output.txt";
+  standard_output="standard_output.dat";
+  displacement_output="displacement_output.dat";
   cell_type_input="cell_type_input.txt";
   adhesion_input="adhesion_input.txt";
   bind_table="bind_table.txt";
+  fixed_table="fixed_table.txt";
   site_io="site_io.txt";
   region_input="region_input.txt";
   site_setting_input="configuration_setting_input.txt";
   configuration_output="configuration.txt";
   configuration_input="configuration.txt";
-  configuration_output_gnuplot_data="configuration_gnuplot.txt";
+  configuration_output_gnuplot_data="configuration_gnuplot.dat";
   configuration_output_gnuplot_plotter="configuration_gnuplot.plt";
   polarity_output="polarity.txt";
   polarity_input="polarity.txt";
-  polarity_output_gnuplot_data="polarity_gnuplot.txt";
+  polarity_output_gnuplot_data="polarity_gnuplot.dat";
   polarity_output_gnuplot_plotter="polarity_gnuplot.plt";
-  observables_output_data="observation_result.txt";
-  observables_average_output_data="observation_average.txt";
-  track_output_data="cell_track.txt";
+  observables_output_data="observation_result.dat";
+  observables_average_output_data="observation_average.dat";
+  track_output_data="cell_track.dat";
   //
   };
 /*
@@ -778,8 +788,10 @@ void io_cellular_potts_class::data_set(
     else if(file_identifier=="model_input") {file_name=model_input;}
     else if(file_identifier=="standard_output") {file_name=standard_output;}
     else if(file_identifier=="cell_type_input") {file_name=cell_type_input;}
+    else if(file_identifier=="displacement_output") {file_name=displacement_output;}
     else if(file_identifier=="adhesion_input") {file_name=adhesion_input;}
     else if(file_identifier=="bind_table") {file_name=bind_table;}
+    else if(file_identifier=="fixed_table") {file_name=fixed_table;}
     else if(file_identifier=="site_io") {file_name=site_io;}
     else if(file_identifier=="site_setting_input") {file_name=site_setting_input;}
     else if(file_identifier=="configuration_input") {file_name=configuration_input;}
@@ -851,9 +863,11 @@ std::string io_cellular_potts_class:: data_get(
     if(input_file_identifier=="io_mode_input") return io_mode_input;
     if(input_file_identifier=="model_input") return model_input;
     if(input_file_identifier=="standard_output") return standard_output;
+    if(input_file_identifier=="displacement_output") return displacement_output;
     if(input_file_identifier=="cell_type_input") return cell_type_input;
     if(input_file_identifier=="adhesion_input") return adhesion_input;
     if(input_file_identifier=="bind_table") return bind_table;
+    if(input_file_identifier=="fixed_table") return fixed_table;
     if(input_file_identifier=="site_io") return site_io;
     if(input_file_identifier=="site_setting_input") return site_setting_input;
     if(input_file_identifier=="configuration_input") return configuration_input;
@@ -873,7 +887,7 @@ std::string io_cellular_potts_class:: data_get(
   if(input_data_identifier=="code") return error_code;
   if(input_data_identifier=="text") return main_text;
   if(input_data_identifier=="data") return data_identifier;
-  return "undefined identifier";
+  return "undefined identifier" + input_file_identifier;
 };
 //
 std::string io_cellular_potts_class::get_input()

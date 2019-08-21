@@ -201,8 +201,13 @@ void state_system_class::advance_time(
 								 )
 				   ];
       //
-      //
-      if(configuration[candidate_site]!=candidate_cell)
+      if(
+	 configuration[candidate_site]!=candidate_cell
+	 &&
+	 cell_system.mobile_table[configuration[candidate_site]]
+	 &&
+	 cell_system.mobile_table[candidate_cell]
+	 )
 	{
 	  // debug
 	  //start_time=clock();

@@ -58,6 +58,12 @@ cell_system_class::cell_system_class(
 				  model.get_system_dimension(direction_index)	  
 				  );
     };
+  //
+  for(long int cell_index=0;cell_index<number_of_cells+1;cell_index++)
+    {
+      mobile_table.push_back(true);
+    };
+  set_mobile_table();
 };
 //
 int cell_system_class::type_define(
@@ -571,4 +577,47 @@ void cell_system_class::check_cell_weight_polarity(
     };
   io_method.standard_output(message);
   // debug end
+};
+//
+void cell_system_class::set_mobile_table()
+{
+  std::vector<long int> fixed_cells;
+  fixed_cells.clear();
+  std::string structure_item;
+  io_method.get_input_longint_array(
+				    "fixed_table",
+				    "fixed_table.cells",
+				    fixed_cells
+				    );
+  std::vector<long int>::iterator fixed_cell_index=fixed_cells.begin();
+  io_method.standard_output("debug="+io_method.longint_to_string(fixed_cells.size()));
+  while(fixed_cell_index!=fixed_cells.end())
+    {
+      mobile_table[(*fixed_cell_index)]=false;
+      fixed_cell_index++;
+    };
+  io_method.standard_output("=== mobile cell list ===");
+    for(
+	long int cell_index=0;
+	cell_index<number_of_cells;
+	cell_index++
+	)
+      {
+	if(mobile_table[cell_index])
+	  {
+	    io_method.standard_output(
+				      "Cell ["
+				      + io_method.longint_to_string(cell_index)
+				      + "] : Mobile"
+				      );
+	  }
+	else
+	  {
+	    io_method.standard_output(
+				      "Cell ["
+				      + io_method.longint_to_string(cell_index)
+				      + "] : Unmobile"
+				      );
+	  };
+      };
 };

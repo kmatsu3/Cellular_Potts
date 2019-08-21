@@ -152,6 +152,13 @@ public: int get_adhesion_polarity_type(
 				       const int & adhesion_index,
 				       const int & cell_index
 				       ) const ;
+public: std::string get_adhesion_type(const long int & map_index) const;
+public: std::string get_adhesion_type_identifier(const std::string & identifier) const;
+public: double get_adhesion_tight_junction_constant(
+						    const long int & map_index,
+						    const long int & cell_index,
+						    const long int & neighbor_cell_index
+						    ) const;
 private: void interaction_key_check(const std::string & value);
 public: void make_typepair_to_adhesion_maps();
 public: void show_adhesion();

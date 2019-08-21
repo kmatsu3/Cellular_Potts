@@ -62,7 +62,7 @@ void adhesion_binding_table::set_table(
 				     );
       for(
 	  long int partner_index=0;
-	  partner_index<work_vector_longint.size();
+	  partner_index<(long int)work_vector_longint.size();
 	  partner_index++
 	  )
 	{
@@ -640,7 +640,9 @@ void adhesion_system_class::show_map_table()
 					      );
 		  io_method.standard_output(messages);
 		  messages = "* coupling const = "
-		    + io_method.double_to_string(coupling_constants[map_index]);
+		    + io_method.double_to_string(
+						 coupling_constants[map_index]
+						 );
 		  io_method.standard_output(messages);
 		  messages = "* cell 1 component = (";
 		  for(
@@ -916,10 +918,13 @@ void adhesion_system_class::make_typepair_to_adhesion_maps()
 	      map_index++
 	      )
 	    {
+	      //
 	      coupling_constants[
 				 map_index
 				 ]
 		=adhesions[typepair_to_adhesion_maps[map_index]].get_coupling_constant();
+	      //
+	      //
 	      adhesions[typepair_to_adhesion_maps[map_index]].get_adhesion_polarity(
 										    1,
 										    work_vector
@@ -1028,6 +1033,45 @@ void adhesion_system_class::make_typepair_to_adhesion_maps()
 	    };
 	};
     };
+};
+//
+std::string adhesion_system_class::get_adhesion_type(
+						     const long int & map_index
+						     ) 
+  const {
+  return adhesions[typepair_to_adhesion_maps[map_index]].get_interaction_type();
+};
+//
+std::string adhesion_system_class::get_adhesion_type_identifier(
+								const std::string & identifier
+								) 
+  const{
+  if(identifier=="normal")
+    {
+      return adhesion_type_normal;
+    }
+  else if(identifier=="tight")
+    {
+      return adhesion_type_tight;
+    }
+  else
+    {
+      return "empty";
+    };
+};
+//
+double adhesion_system_class::get_adhesion_tight_junction_constant(
+								   const long int & map_index,
+								   const long int & cell_index,
+								   const long int & neighbor_cell_index
+								   ) 
+  const{
+  return adhesions[
+		   typepair_to_adhesion_maps[map_index]
+		   ].bind_table.bind_coupling[
+					      cell_index*number_of_cells
+					      +neighbor_cell_index
+					      ];
 };
 //
 void adhesion_system_class::interaction_key_check(const std::string & value)

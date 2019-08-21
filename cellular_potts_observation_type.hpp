@@ -15,8 +15,14 @@ public: long int end_pointer;
 public: std::vector<long int> number_of_living_cells;
 public: std::vector<double> net_polarity;
 public: std::vector<double> variance_of_polarity;
+public: std::vector<double> variance_longitudinal_polarity;
+public: std::vector<double> variance_lateral_polarity;
 public: std::vector<double> net_displacement;
 public: std::vector<double> variance_of_displacement;
+public: std::vector<double> longitudinal_displacement;
+public: std::vector<double> lateral_displacement; 
+public: std::vector<double> variance_longitudinal_displacement;
+public: std::vector<double> variance_lateral_displacement; 
 public: std::vector<double> total_displacement;
 public: std::vector<double> represent_position;
 public: std::vector<double> averaged_position;
@@ -29,6 +35,7 @@ class observables_type_system_class{
 private: int number_of_cell_types;
 private: long int number_of_cells;
 private: int space_dimension;
+private: int number_of_decomposition;
 private: int sweep_step;
 private: long long int track_steps;
 private: long long int track_index;
@@ -42,21 +49,50 @@ private: std::vector<long int> steps;
 private: std::string filename;
 private: std::string message;
 private: std::vector<double> averaged_net_polarity;
+private: std::vector<double> variance_for_net_polarity;
 private: std::vector<double> averaged_variance_of_polarity;
+  //private: std::vector<double> averaged_longitudinal_polarity;
+  //private: double variance_for_longitudinal_polarity;
+private: double averaged_variance_of_longitudinal_polarity;
+  //private: double variance_for_lateral_polarity;
+private: double averaged_variance_of_lateral_polarity;
+  //private: std::vector<double> averaged_lateral_polarity;
 private: std::vector<double> averaged_net_displacement;
+private: std::vector<double> variance_for_displacement;
 private: std::vector<double> averaged_variance_of_displacement;
+private: double averaged_longitudinal_displacement;
+private: double variance_for_longitudinal_displacement;
+private: double averaged_variance_of_longitudinal_displacement;
+private: double averaged_lateral_displacement;
+private: double variance_for_lateral_displacement;
+private: double averaged_variance_of_lateral_displacement;
 private: std::vector<double> work_position;
 private: double averaged_number_of_cells;
+  //
+private: double absolute_value_of_polarity;
+private: double variance_for_absolute_value_of_polarity;
+private: double absolute_value_of_displacement;
+private: double variance_for_absolute_value_of_displacement;
+  //
+private: double work_double;
+private: std::vector<double> projection_vector;
   //
 private: long long int iteration_counter;
 private: long long int number_of_observations;
 private: long long int matrix_dimension;
 private: std::vector<double> work_polarity_vector;
 private: std::vector<double> work_polarity_variance;
+private: std::vector<double> work_polarity_pair;
+private: std::vector<double> work_polarity_pair_variance;
 private: std::vector<double> work_displacement_vector;
 private: std::vector<double> work_displacement_variance;
+private: std::vector<double> work_displacement_pair;
+private: std::vector<double> work_displacement_pair_variance;
+private: std::vector<double> work_square_norm;
 private: std::vector<double> work_norm;
-private: double work_average_norm;
+private: std::vector<double> work_longitudinal;
+private: std::vector<double> work_lateral;
+private: double work_average_square_norm;
 private: io_cellular_potts io_method;
   //
 public: void initialize(
@@ -70,6 +106,9 @@ public: void initialize(
 private: void load_data(
 		       const state_system_class & state
 		       );
+private: void load_unsorted_data(
+				 const state_system_class & state
+				 );
   //
 public: void calculation(
 			 const state_system_class & state
@@ -101,11 +140,23 @@ private: void calculate_variance(
 				 const std::vector<double> & input_vectors,
 				 std::vector<double> & output_vectors
 				 );
-private: double calculate_norm_average(
-				       const int & type_index,
-				       const std::vector<double> & input_vectors,
-				       const double & diviser
-				       );
+private: void calculate_projections(
+				    const int & type_index,
+				    const std::vector<double> & input_vectors,
+				    const std::vector<double> & input_projection_direction,
+				    std::vector<double> & output_pair,
+				    std::vector<double> & output_pair_variance
+				    );
+private: double calculate_square_norm_average(
+					      const int & type_index,
+					      const std::vector<double> & input_vectors,
+					      const double & diviser
+					      );
+private: inline double square_norm(
+				   const std::vector<double> & input_vector,
+				   const long int & index,
+				   const long int & vector_size
+				   ) const;
 private: inline double norm(
 			    const std::vector<double> & input_vector,
 			    const long int & index,

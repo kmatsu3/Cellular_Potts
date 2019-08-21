@@ -36,10 +36,12 @@ private: long long int number_of_sites;
 private: long int number_of_cells;
 private: int number_of_cell_types;
 private: std::vector<long int> system_dimensions;
+public: std::vector<bool> mobile_table;
   /* Work Memory*/
 private: std::vector<long int> work_positions;
   /* Subclass */
 private: toolbox tool;
+private: io_cellular_potts io_method;
   /*======================
     Methods
    =======================*/
@@ -139,6 +141,9 @@ public:void check_cell_weight_polarity(
 				 const std::vector<long long int> & cell_total_positions,
 				 const std::vector<long long int> & cell_volumes
 				)const;
+  //
+public:void set_mobile_table();
+  //
   /*======================
     Constructor
    =======================*/
