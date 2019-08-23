@@ -350,15 +350,15 @@ void observables_type_system_class::calculation(
 				work_polarity_pair_variance
 				);
 	  /*
-	  	  io_method.standard_output(
-				    "debug polarity :" + io_method.double_to_string(work_polarity_pair[0])
-				    + '/' + io_method.double_to_string(work_polarity_pair[1])
-				    + '/' + io_method.double_to_string(work_polarity_pair_variance[0])
-				    + '/' + io_method.double_to_string(work_polarity_pair_variance[1])
-				    + '/' + io_method.double_to_string(work_polarity_vector[0])
-				    + '/' + io_method.double_to_string(work_polarity_vector[1])
-				    + '/' + io_method.double_to_string(work_polarity_pair_variance[0])
-				    );
+	    io_method.standard_output(
+	    "debug polarity :" + io_method.double_to_string(work_polarity_pair[0])
+	    + '/' + io_method.double_to_string(work_polarity_pair[1])
+	    + '/' + io_method.double_to_string(work_polarity_pair_variance[0])
+	    + '/' + io_method.double_to_string(work_polarity_pair_variance[1])
+	    + '/' + io_method.double_to_string(work_polarity_vector[0])
+	    + '/' + io_method.double_to_string(work_polarity_vector[1])
+	    + '/' + io_method.double_to_string(work_polarity_pair_variance[0])
+	    );
 	  */
 	  calculate_net_value(
 			      type_index,
@@ -378,15 +378,15 @@ void observables_type_system_class::calculation(
 				work_displacement_pair_variance
 				);
 	  /*
-	  io_method.standard_output(
-				    "debug displacement: "
-				    +       io_method.double_to_string(work_displacement_pair[0])
-				    + '/' + io_method.double_to_string(work_displacement_pair[1])
-				    + '/' + io_method.double_to_string(work_displacement_pair_variance[0])
-				    + '/' + io_method.double_to_string(work_displacement_pair_variance[1])
-				    + '/' + io_method.double_to_string(work_polarity_vector[0])
-				    + '/' + io_method.double_to_string(work_polarity_vector[1])
-				    );
+	    io_method.standard_output(
+	    "debug displacement: "
+	    +       io_method.double_to_string(work_displacement_pair[0])
+	    + '/' + io_method.double_to_string(work_displacement_pair[1])
+	    + '/' + io_method.double_to_string(work_displacement_pair_variance[0])
+	    + '/' + io_method.double_to_string(work_displacement_pair_variance[1])
+	    + '/' + io_method.double_to_string(work_polarity_vector[0])
+	    + '/' + io_method.double_to_string(work_polarity_vector[1])
+	    );
 	  */
 	  value_set(type_index);
 	};
@@ -1504,29 +1504,8 @@ void  observables_type_system_class::calculation_average(const int & type_index)
      {
        averaged_number_of_cells
 	 +=observables_types[type_index].number_of_living_cells[index];
-       //
-       averaged_variance_of_longitudinal_polarity
-	 +=observables_types[type_index].variance_longitudinal_polarity[index]
-	 * observables_types[type_index].variance_longitudinal_polarity[index];
-       averaged_variance_of_lateral_polarity
-	 +=observables_types[type_index].variance_lateral_polarity[index]
-	 * observables_types[type_index].variance_lateral_polarity[index];
-       //
-       averaged_longitudinal_displacement
-	 +=observables_types[type_index].longitudinal_displacement[index];
-       variance_for_longitudinal_displacement
-	 +=observables_types[type_index].longitudinal_displacement[index]
-	 * observables_types[type_index].longitudinal_displacement[index];
-       averaged_variance_of_longitudinal_displacement
-	 +=observables_types[type_index].variance_longitudinal_displacement[index];
-       averaged_lateral_displacement
-	 +=observables_types[type_index].lateral_displacement[index];
-       variance_for_lateral_displacement
-	 +=observables_types[type_index].lateral_displacement[index]
-	 * observables_types[type_index].lateral_displacement[index];
-       averaged_variance_of_lateral_displacement
-	 +=observables_types[type_index].variance_lateral_displacement[index];
-       //
+       // for polarity
+       work_double=0.0;
        for(
 	   int direction_index=0;
 	   direction_index<space_dimension;
@@ -1537,6 +1516,17 @@ void  observables_type_system_class::calculation_average(const int & type_index)
 	 };
        absolute_value_of_polarity+=sqrt(work_double);
        variance_for_absolute_value_of_polarity+=std::pow(sqrt(work_double),2.0);
+       
+       //
+       averaged_variance_of_longitudinal_polarity
+	 +=sqrt(
+		observables_types[type_index].variance_longitudinal_polarity[index]
+		-
+		work_double*work_double
+		);
+       averaged_variance_of_lateral_polarity
+	 +=sqrt(observables_types[type_index].variance_lateral_polarity[index]);
+       // for displacement
        work_double=0.0;
        for(
 	   int direction_index=0;
@@ -1548,6 +1538,26 @@ void  observables_type_system_class::calculation_average(const int & type_index)
 	 };
        absolute_value_of_displacement+=sqrt(work_double);
        variance_for_absolute_value_of_displacement+=std::pow(sqrt(work_double),2.0);
+       //
+       averaged_longitudinal_displacement
+	 +=observables_types[type_index].longitudinal_displacement[index];
+       variance_for_longitudinal_displacement
+	 +=observables_types[type_index].longitudinal_displacement[index]
+	 * observables_types[type_index].longitudinal_displacement[index];
+       averaged_variance_of_longitudinal_displacement
+	 +=sqrt(observables_types[type_index].variance_longitudinal_displacement[index]
+		- observables_types[type_index].longitudinal_displacement[index]
+		* observables_types[type_index].longitudinal_displacement[index]);
+       averaged_lateral_displacement
+	 +=observables_types[type_index].lateral_displacement[index];
+       variance_for_lateral_displacement
+	 +=observables_types[type_index].lateral_displacement[index]
+	 * observables_types[type_index].lateral_displacement[index];
+       averaged_variance_of_lateral_displacement
+	 +=sqrt(observables_types[type_index].variance_lateral_displacement[index]
+		- observables_types[type_index].lateral_displacement[index]
+		* observables_types[type_index].lateral_displacement[index]);
+       //
        for(
 	   int direction_index=0;
 	   direction_index<space_dimension;
