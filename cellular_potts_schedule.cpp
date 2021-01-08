@@ -124,7 +124,7 @@ const {
 //
 void schedule_system_class::monte_carlo(
 					const model_parameters_cellular_potts_class & model,
-					const cell_system_class & cell_system,
+					cell_system_class & cell_system,
 					type_system_class & cell_type_system,
 					site_system_class & site_system,
 					region_system_class & region_system,
@@ -133,6 +133,7 @@ void schedule_system_class::monte_carlo(
 					cell_displacement_system & cell_track,
 					observation_system_class & macro_data,
 					observables_type_system_class & observables,
+					shape_system_class & shape_system,
 					adhesion_system_class & adhesion_system
 					) 
   {
@@ -164,6 +165,13 @@ void schedule_system_class::monte_carlo(
 			     cell_system,	
 			     cell_type_system
 			     );
+      shape_system.initialize(
+			      model,
+			      cell_system,
+			      cell_type_system,
+			      site_system,
+			      sweep_step
+			      );
       //
       input_parameters(
 		       cell_type_system,
@@ -268,6 +276,16 @@ void schedule_system_class::monte_carlo(
 				     );
 	      //
 	      observables.calculation(state);
+	      shape_system.calculate_polar_correlation(
+						       state,
+						       cell_system
+						       );
+	      shape_system.calculate_shape_tensor(
+						  state,
+						  model,
+						  site_system,
+						  cell_system
+						  );
 	      //
 	      //	      cell_track.push_average_mean_square_displacement();
 	      cell_track.push();
@@ -278,6 +296,8 @@ void schedule_system_class::monte_carlo(
       macro_data.output_average_observation(parameter_titles,model_parameters);
       //
       observables.output(parameter_titles,model_parameters);
+      shape_system.output_polar_correlation(parameter_titles,model_parameters);
+      shape_system.output_shape_characters(parameter_titles,model_parameters);
       //cell_track.output_average_mean_square_displacement();
       cell_track.output();
       //

@@ -101,8 +101,8 @@ double local_state_class::get_local_adhesion_energy(
 			*polar_product_neighbor;
 		    };
 		  // should be debugging
-		  //	  debug_message = adhesion_system.get_adhesion_type(map_index)
-		  //    + ":";
+		  //		  debug_message = adhesion_system.get_adhesion_type(map_index)
+		  //  + ":";
 		  if(
 		     adhesion_system.get_adhesion_type(map_index)
 		     ==
@@ -110,15 +110,15 @@ double local_state_class::get_local_adhesion_energy(
 		     )
 		    {
 		      work_vector_double_for_neighbors[neighbor_index]
-			=adhesion_system.coupling_constants[map_index]
+			+=adhesion_system.coupling_constants[map_index]
 			*work_density*work_density_neighbor;
 		      //debug
 		      //  debug_message += "debug list A: strength =" 
-		      //	+ io_method.double_to_string(adhesion_system.coupling_constants[map_index])
-		      //	+ "map no." + io_method.longint_to_string(map_index)
+		      // 	+ io_method.double_to_string(adhesion_system.coupling_constants[map_index])
+		      // 	+ "map no." + io_method.longint_to_string(map_index)
 		      //	+ "cell no." + io_method.longint_to_string(cell)
 		      //	+ "neig no." + io_method.longint_to_string(neighbor_cells[neighbor_index]);
-		      //  io_method.standard_output(debug_message);
+		      //io_method.standard_output(debug_message);
 		      //debug
 		    }
 		  else if(
@@ -128,7 +128,7 @@ double local_state_class::get_local_adhesion_energy(
 			  )
 		    {
 		      work_vector_double_for_neighbors[neighbor_index]
-			=adhesion_system.get_adhesion_tight_junction_constant(
+			+=adhesion_system.get_adhesion_tight_junction_constant(
 									      map_index,
 									      cell,
 									      neighbor_cells[neighbor_index]

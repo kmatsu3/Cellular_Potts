@@ -28,13 +28,14 @@ class state_system_class{
   /*======================
     Members
    =======================*/
-private: std::vector<long int> configuration;
-private: std::vector<long long int> cell_volumes;
+public: std::vector<long int> configuration;
+public: std::vector<long long int> cell_volumes;
 private: std::vector<long long int> original_cell_volumes;
 private: std::vector<long long int> cell_perimaters;
-private: std::vector<double> cell_polarities;
+public: std::vector<double> cell_polarities;
 private: std::vector<double> adhesion_polarites;
-private: std::vector<long long int> cell_origins;
+public: std::vector<long long int> cell_origins;
+public: std::vector<long long int> cell_total_positions;
 private: double cell_scale;
 private: int space_dimension;
   /*
@@ -49,9 +50,8 @@ private: int buffer_type;
   /*=====================
     2 Temoirary states
    =====================*/
-  /* Initialization setting */
-private: std::vector<long long int> cell_total_positions;
   // Configuration
+  /* Initialization setting */
 private: std::vector<long int> generation_origin;
 private: std::vector<long int> generation_array;
 private: std::vector<long int> initial_cell_dimensions;
@@ -98,7 +98,7 @@ private:double beta;
 private: std::vector<double> cell_displacements;
 private: std::vector<double> plot_memory_position;
 private: std::vector<double> plot_displacements;
-private: std::vector<double> polar_product; // size = number_of_sites
+public: std::vector<double> polar_product; // size = number_of_sites
 private: std::vector<double> work_relative_coordinate; // size = space_dimension
 private: std::vector<double> work_cell_polarity; // size = space_dimension
 private: std::vector<long int> work_long_int; // size = space_dimension
@@ -133,14 +133,14 @@ private: int true_value;
   //input methods
 public: void initialize_state( 
 			      const model_parameters_cellular_potts_class & model,
-			      const cell_system_class & cell_system,
+			      cell_system_class & cell_system,
 			      const type_system_class & cell_type_system,
 			      site_system_class & site_system,
 			      simulation_system_class & simulation
 			      );
 public: void advance_time(
 			  const model_parameters_cellular_potts_class & model,
-			  const cell_system_class & cell_system,
+			  cell_system_class & cell_system,
 			  const type_system_class & cell_type_system,
 			  const adhesion_system_class & adhesion_system,
 			  site_system_class & site_system,
@@ -444,7 +444,7 @@ private: inline void calculate_relative_coordinate(
 						   ) 
 {
   int direction_index;
-  int cell_index=configuration[site_index];
+  long int cell_index=configuration[site_index];
   site_system.origin_shift(
 			   model,
 			   cell_origins[cell_index],

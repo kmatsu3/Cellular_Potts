@@ -5,7 +5,7 @@
 //input methods
 void state_system_class::initialize_state(
 					  const model_parameters_cellular_potts_class & model,
-					  const cell_system_class & cell_system,
+					  cell_system_class & cell_system,
 					  const type_system_class & cell_type_system,
 					  site_system_class & site_system,
 					  simulation_system_class & simulation
@@ -91,7 +91,7 @@ void state_system_class::initialize_state(
 //
 void state_system_class::advance_time(
 				      const model_parameters_cellular_potts_class & model,
-				      const cell_system_class & cell_system,
+				      cell_system_class & cell_system,
 				      const type_system_class & cell_type_system,
 				      const adhesion_system_class & adhesion_system,
 				      site_system_class & site_system,
@@ -1671,6 +1671,7 @@ void state_system_class::output_polarity(
 	      long int number_of_cells=model.get_number_of_cells();
 	      std::vector<std::vector<double> > arrows;
 	      std::vector<std::vector<double> > cell_coordinates;
+	      std::vector<long int> translate_cell_types;
 	      std::vector<double> work_vector_double(space_dimension,0.0);
 	      std::vector<int> cell_stacks(number_of_cells,0); 
 	      //
@@ -1731,6 +1732,7 @@ void state_system_class::output_polarity(
 		    };
 		  // initialization
 		  cell_coordinates.clear();
+		  translate_cell_types.clear();
 		  arrows.clear();
 		  //
 		  for(site_index=0;site_index<plane_size;site_index++)
@@ -1769,6 +1771,12 @@ void state_system_class::output_polarity(
 									    work_vector_double
 									    );
 			      cell_coordinates.push_back(work_vector_double);
+			      translate_cell_types.push_back(cell_types[configuration[pivot_site_index]]);
+			      //			      for(component_index=0;component_index<space_dimension;component_index++)
+			      //	{
+			      //	  cell_coordinates[configuration[pivot_site_index]][component_index]
+			      //	    =work_vector_double[component_index];
+			      //	};
 			      for(component_index=0;component_index<space_dimension;component_index++)
 				{
 				  work_vector_double[component_index]
@@ -1781,7 +1789,7 @@ void state_system_class::output_polarity(
 		  gplot.output_vectors_with_type_on_loading_file(
 								 cell_coordinates,
 								 arrows,
-								 cell_types,
+								 translate_cell_types,
 								 plane_index,
 								 time_index,
 								 sweep_step,
@@ -1912,6 +1920,7 @@ void state_system_class::output_displacement(
 	      long int number_of_cells=model.get_number_of_cells();
 	      std::vector<std::vector<double> > arrows;
 	      std::vector<std::vector<double> > cell_coordinates;
+	      std::vector<long int> translate_cell_types;
 	      std::vector<double> work_vector_double(space_dimension,0.0);
 	      std::vector<int> cell_stacks(number_of_cells,0); 
 	      //
@@ -1976,6 +1985,7 @@ void state_system_class::output_displacement(
 		    };
 		  // initialization
 		  cell_coordinates.clear();
+		  translate_cell_types.clear();
 		  arrows.clear();
 		  //
 		  for(site_index=0;site_index<plane_size;site_index++)
@@ -2015,6 +2025,7 @@ void state_system_class::output_displacement(
 									    work_vector_double
 									    );
 			      cell_coordinates.push_back(work_vector_double);
+			      translate_cell_types.push_back(cell_types[configuration[pivot_site_index]]);
 			      for(component_index=0;component_index<space_dimension;component_index++)
 				{
 				  work_vector_double[component_index]
@@ -2028,7 +2039,7 @@ void state_system_class::output_displacement(
 		  gplot.output_vectors_with_type_on_loading_file(
 								 cell_coordinates,
 								 arrows,
-								 cell_types,
+								 translate_cell_types,
 								 plane_index,
 								 time_index,
 								 sweep_step,

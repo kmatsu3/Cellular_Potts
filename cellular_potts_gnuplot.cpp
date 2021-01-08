@@ -322,7 +322,7 @@ void gnuplot_driver::output_vectors_on_loading_file(
 void gnuplot_driver::output_vectors_with_type_on_loading_file(
 							      const std::vector<std::vector <double> > & coordinates,
 							      const std::vector<std::vector <double> > & arrows,
-							      const std::vector<int> & types,
+							      const std::vector<long int> & types,
 							      const long int & plane_index,
 							      const long int & time_index,
 							      const int & sweep_step,
@@ -335,7 +335,7 @@ void gnuplot_driver::output_vectors_with_type_on_loading_file(
   std::string output_message;
   int type_max=type_max_init;
   int type_min=type_min_init;
-  std::vector<int>::const_iterator types_index=types.begin();
+  std::vector<long int>::const_iterator types_index=types.begin();
   while(types_index!=types.end())
     {
       if((*types_index)<type_min) type_min=(*types_index);
@@ -395,6 +395,7 @@ void gnuplot_driver::output_vectors_with_type_on_loading_file(
 	};
       output_message += ", 0.0 arrowstyle "
 	+ io_method.int_to_string(types[vector_counter]-type_min+1);
+      //      io_method.standard_output(io_method.int_to_string(vector_counter)+":"+io_method.int_to_string(types[vector_counter]));
       io_method.output_message(output_message,data_file);
       vector_index++;
       vector_counter++;

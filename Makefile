@@ -4,6 +4,7 @@ System_source  = cellular_potts_io.cpp     \
 Modules_source = cellular_potts_definition.cpp     \
                  cellular_potts_random.cpp         \
                  cellular_potts_simulation.cpp     \
+                 cellular_potts_shape.cpp          \
                  cellular_potts_polarity.cpp       \
                  cellular_potts_adhesion.cpp       \
                  cellular_potts_type.cpp           \
@@ -17,7 +18,7 @@ Modules_source = cellular_potts_definition.cpp     \
                  cellular_potts_observation_type.cpp    \
                  cellular_potts_region.cpp         \
                  cellular_potts_motion_trace.cpp   \
-                 cellular_potts_state.cpp
+                 cellular_potts_state.cpp    
 Main_source    = cellular_potts_main.cpp
 Source = $(System_source)         \
          $(Modules_source)        \
@@ -90,6 +91,7 @@ cellular_potts_site.o:cellular_potts_site.cpp
 cellular_potts_cell.o:cellular_potts_cell.cpp
 cellular_potts_type.o:cellular_potts_type.cpp
 cellular_potts_adhesion.o:cellular_potts_adhesion.cpp
+cellular_potts_shape.o:cellular_potts_polarity.cpp
 cellular_potts_polarity.o:cellular_potts_polarity.cpp
 cellular_potts_hamiltonian.o:cellular_potts_hamiltonian.cpp
 cellular_potts_adhesive_hamiltonian.o:cellular_potts_adhesive_hamiltonian.cpp

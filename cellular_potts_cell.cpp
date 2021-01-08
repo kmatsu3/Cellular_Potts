@@ -184,18 +184,28 @@ void cell_system_class::assign_cell_origins(
 					    const std::vector<long int> & configuration,
 					    std::vector<long long int> & cell_origins
 					    ) 
-const {
-  long int cell_index;
-  for(cell_index=0;cell_index<number_of_cells;cell_index++)
+{
+  for(long int cell_index=0;cell_index<number_of_cells;cell_index++)
     {
       cell_origins[cell_index]=-1;
     };
-  long long int site_index;
-  for(site_index=0;site_index<number_of_sites;site_index++)
+  for(long long int site_index=0;site_index<number_of_sites;site_index++)
     {
       if(cell_origins[configuration[site_index]]==-1) 
 	{
 	  cell_origins[configuration[site_index]]=site_index;
+	};
+    };
+  for(long int cell_index=0;cell_index<number_of_cells;cell_index++)
+    {
+      if(cell_origins[cell_index]==-1)
+	{
+	  std::string error_message="due to cell" + io_method.longint_to_string(cell_index) + "disappear !";
+	  io_method.error_output(
+				 "cell_system_class",
+				 "type_define",
+				 error_message
+				 );
 	};
     };
 };

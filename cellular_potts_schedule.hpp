@@ -14,6 +14,7 @@
 #include "cellular_potts_adhesion.hpp"
 #include "cellular_potts_observation.hpp"
 #include "cellular_potts_observation_type.hpp"
+#include "cellular_potts_shape.hpp"
 #include "cellular_potts_motion_trace.hpp"
 #include "cellular_potts_simulation.hpp"
 class model_parameter_schedule_class {
@@ -85,7 +86,7 @@ private:int space_dimension;
    =======================*/
 public: void monte_carlo(
 			 const model_parameters_cellular_potts_class & model,
-			 const cell_system_class & cell_system,
+			 cell_system_class & cell_system,
 			 type_system_class & cell_type_system,
 			 site_system_class & site_system,
 			 region_system_class & region_system,
@@ -94,6 +95,7 @@ public: void monte_carlo(
 			 cell_displacement_system & cell_track,
 			 observation_system_class & macro_data,
 			 observables_type_system_class & observables,
+			 shape_system_class & shape_system,
 			 adhesion_system_class & adhesion_system
 			 );
   //    

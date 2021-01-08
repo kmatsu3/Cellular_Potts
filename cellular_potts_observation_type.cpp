@@ -1224,6 +1224,7 @@ void observables_type_system_class::output(
 	    += io_method.longint_to_string(
 					   (long int)((double)averaged_number_of_cells/(double)number_of_observations)
 					   );
+	  //polarity component + variance # =space_dimension*2
 	  message+= " ";
 	  for(
 	      int direction_index=0;
@@ -1243,7 +1244,7 @@ void observables_type_system_class::output(
 					      );
 	      message+= " ";
 	    };
-	  // absolute
+	  // absolute + its variance # = 2
 	  message 
 	    += io_method.double_to_string(
 					  absolute_value_of_polarity/(double)number_of_observations
@@ -1255,7 +1256,7 @@ void observables_type_system_class::output(
 					  -std::pow(absolute_value_of_polarity/(double)number_of_observations,2.0)
 					  );
 	  message+= " ";
-	  //
+	  // covariance space_dimension*(space_dimension+1)/2
 	  for(
 	      int direction_index=0;
 	      direction_index<space_dimension;

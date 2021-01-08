@@ -340,7 +340,7 @@ void state_system_class::get_total_adhesion(
 	    {
 	      total_square_polar_product=total_square_polar_product
 		+polar_product[site_index]*polar_product[site_index]
-		/cell_volumes[configuration[site_index]];
+		/double(cell_volumes[configuration[site_index]]);
 	    };
 	  for(neighbor_index=0;
 	      neighbor_index<number_of_neighbor_sites;

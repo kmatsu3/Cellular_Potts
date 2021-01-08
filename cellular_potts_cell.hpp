@@ -78,7 +78,7 @@ public: void assign_cell_origins(
 				 const model_parameters_cellular_potts_class & model,
 				 const std::vector<long int> & configuration,
 				 std::vector<long long int> & cell_origins
-				 ) const;
+				 );
   //
 public: void calculate_cell_total_positions(
 					    const model_parameters_cellular_potts_class & model,

@@ -6,6 +6,7 @@
 #include "cellular_potts_simulation.hpp"
 #include "cellular_potts_schedule.hpp"
 #include "cellular_potts_observation.hpp"
+#include "cellular_potts_shape.hpp"
 #include "cellular_potts_region.hpp"
 #include "cellular_potts_state.hpp"
 #include "cellular_potts_motion_trace.hpp"
@@ -58,6 +59,7 @@ int main()
   fprintf(stderr,"Starting observation generator\n");
   observation_system_class macro_data(model,cell_system,cell_type_system,simulation);
   observables_type_system_class observables;
+  shape_system_class shape_system;
   fprintf(stderr,"Starting state generator\n");
   
   state_system_class state(model,site_system,cell_system,cell_type_system);
@@ -74,6 +76,7 @@ int main()
 		       cell_track,
 		       macro_data,
 		       observables,
+		       shape_system,
 		       adhesion_system
 		       );
   //

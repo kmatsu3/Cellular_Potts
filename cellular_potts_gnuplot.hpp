@@ -95,7 +95,7 @@ public: void output_vectors_on_loading_file(
 public: void output_vectors_with_type_on_loading_file(
 						      const std::vector<std::vector <double> > & coordinates,
 						      const std::vector<std::vector <double> > & arrows,
-						      const std::vector<int> & types,
+						      const std::vector<long int> & types,
 						      const long int & plane_index,
 						      const long int & number_of_steps,
 						      const int & number_of_sweeps,
